@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #215b81;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        #topBar {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        a {
+            text-decoration: none;
+        }
+        #ex {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="topBar">
+    <h1>AI Documentation</h1>
+    <a href="index.html"><button><h2 id="ex">Back to experiment</h2></button></a>
+    </div>
+    <section id="overview">
+        <h2>1. Overview</h2>
+        <p>
+            This project features two AI-controlled paddles for a 3D ball simulation. Each AI uses a different approach 
+            to track and intercept the ball:
+        </p>
+        <ul>
+            <li><strong>Reactive AI:</strong> Uses current ball state and paddle state to choose immediate movement.</li>
+            <li><strong>Predictive AI:</strong> Uses extended ball trajectory information to predict where to move next.</li>
+        </ul>
+        <p>
+            The goal of this experiment was to compare the learning capabilities of two almost identical machine learning algorithms and observe how critical the right input is to a ML algorithm.
+        </p>
+    </section>
+
+    <section id="comparison">
+        <h2>2. AI Comparison Table</h2>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Reactive AI (Right side of 3D bubble)</th>
+                <th>Predictive AI (Left side of 3D bubble)</th>
+            </tr>
+            <tr>
+                <td>Inputs</td>
+                <td>
+                    <b>10</b> -> X_pos, Y_pos, Z_pos, Vx, Vy, Vz, X_paddle, Y_paddle, paddle_speed, paddle_height
+                </td>
+                <td>
+                    <b>14</b> -> X_pos, Y_pos, Z_pos, Vx, Vy, Vz, X_paddle, Y_paddle, paddle_speed, paddle_height, 
+                    time_to_wall_x, time_to_wall_y, x_dist_to_paddle, y_dist_to_paddle
+                </td>
+            </tr>
+            <tr>
+                <td>Strategy</td>
+                <td>Reactive – responds to current velocity and position.</td>
+                <td>Predictive – estimates ball trajectory and paddle intercept point.</td>
+            </tr>
+            <tr>
+                <td>Hidden Layer Neurons</td>
+                <td>12</td>
+                <td>12</td>
+            </tr>
+            <tr>
+                <td>Output Actions</td>
+                <td>9 discrete actions: up, down, left, right, diagonals, none</td>
+                <td>9 discrete actions: up, down, left, right, diagonals, none</td>
+            </tr>
+            <tr>
+                <td>Algorithm</td>
+                <td>Simple feedforward neural network with sigmoid + softmax</td>
+                <td>Feedforward neural network with sigmoid + softmax, combines dual action selection if needed</td>
+            </tr>
+            <tr>
+                <td>Complexity</td>
+                <td>Medium</td>
+                <td>Higher due to additional input features for prediction</td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="details">
+        <h2>3. Detailed AI Descriptions</h2>
+
+        <h3>3.1 Reactive AI</h3>
+        <ul>
+            <li>Goal: Move paddle according to ball's current state.</li>
+            <li>Inputs: Ball position and velocity, paddle position, paddle speed/height.</li>
+            <li>Algorithm: Feedforward neural network with a single hidden layer.</li>
+            <li>Action Selection: Chooses the action with the highest probability from softmax output.</li>
+            <li>Strengths: Fast response, simple implementation.</li>
+            <li>Weaknesses: Cannot anticipate ball trajectory beyond current velocity.</li>
+        </ul>
+
+        <h3>3.2 Predictive AI</h3>
+        <ul>
+            <li>Goal: Predict where the paddle needs to be to intercept the ball.</li>
+            <li>Inputs: Ball position/velocity, paddle state, distance to paddle, time to walls.</li>
+            <li>Algorithm: Feedforward neural network with a hidden layer. Uses trajectory information and combines top two actions when softmax outputs are close.</li>
+            <li>Action Selection: Chooses either top probability action or combines two close top actions for diagonal movement.</li>
+            <li>Strengths: Anticipates ball movement, more accurate at intercepting.</li>
+            <li>Weaknesses: Slightly slower to react due to extended input processing.</li>
+        </ul>
+    </section>
+
+    <section id="tech">
+        <h2>4. Technology Used</h2>
+        <ul>
+            <li>TypeScript for AI logic and simulation integration</li>
+            <li>Feedforward Neural Networks with sigmoid activation</li>
+            <li>Softmax for output action probabilities</li>
+            <li>Stochastic Gradient Descent for training</li>
+        </ul>
+    </section>
+
+</body>
+</html>
