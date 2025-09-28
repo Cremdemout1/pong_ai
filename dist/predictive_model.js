@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   predictive_model.js                                :+:      :+:    :+:   */
+/*   predictive_model.ts                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yohan <yohan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 10:00:50 by yohan             #+#    #+#             */
-/*   Updated: 2025/09/07 12:21:24 by yohan            ###   ########.fr       */
+/*   Updated: 2025/09/07 11:23:38 by yohan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 export const actions = [
     'up',
     'down',
@@ -21,7 +20,6 @@ export const actions = [
     'down-left',
     'none',
 ];
-
 // is acc OP, like it's not even funny. I'll need to add noise or reduce paddle speed to allow losses
 export class predictive_model {
     //______________________________________________________________________________//
@@ -60,6 +58,7 @@ export class predictive_model {
     // learning //
     //______________________________________________________________________________//
     constructor(learning_rate = 0.1, weights) {
+        var _a, _b, _c, _d;
         this.num_inputs = 14;
         this.num_of_hidden_neurons = 12;
         this.num_outputs = 9; //possible outcomes
@@ -75,14 +74,10 @@ export class predictive_model {
         this.bias_output_layer = []; //allows neurons to function even when all weights are 0
         this.learning_rate = learning_rate;
         this.n_iter = 100;
-        this.W_hidden_input = weights?.W_hidden_input ??
-            Array(this.num_of_hidden_neurons).fill(0).map(() => Array(this.num_inputs).fill(0).map(() => Math.random() - 0.5));
-        this.W_hidden_output = weights?.W_hidden_output ??
-            Array(this.num_outputs).fill(0).map(() => Array(this.num_of_hidden_neurons).fill(0).map(() => Math.random() - 0.5));
-        this.bias_hidden_layer = weights?.bias_hidden_layer ??
-            Array(this.num_of_hidden_neurons).fill(0).map(() => Math.random() - 0.5);
-        this.bias_output_layer = weights?.bias_output_layer ??
-            Array(this.num_outputs).fill(0).map(() => Math.random() - 0.5);
+        this.W_hidden_input = (_a = weights === null || weights === void 0 ? void 0 : weights.W_hidden_input) !== null && _a !== void 0 ? _a : Array(this.num_of_hidden_neurons).fill(0).map(() => Array(this.num_inputs).fill(0).map(() => Math.random() - 0.5));
+        this.W_hidden_output = (_b = weights === null || weights === void 0 ? void 0 : weights.W_hidden_output) !== null && _b !== void 0 ? _b : Array(this.num_outputs).fill(0).map(() => Array(this.num_of_hidden_neurons).fill(0).map(() => Math.random() - 0.5));
+        this.bias_hidden_layer = (_c = weights === null || weights === void 0 ? void 0 : weights.bias_hidden_layer) !== null && _c !== void 0 ? _c : Array(this.num_of_hidden_neurons).fill(0).map(() => Math.random() - 0.5);
+        this.bias_output_layer = (_d = weights === null || weights === void 0 ? void 0 : weights.bias_output_layer) !== null && _d !== void 0 ? _d : Array(this.num_outputs).fill(0).map(() => Math.random() - 0.5);
     }
     predict(state) {
         const input = this.state_to_vector(state);
@@ -190,4 +185,3 @@ export class predictive_model {
     }
     ;
 }
-//# sourceMappingURL=predictive_model.js.map
