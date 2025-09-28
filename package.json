@@ -1,0 +1,14 @@
+{
+  "name": "my-static-site",
+  "version": "1.0.0",
+  "description": "A simple static site served with http-server in Docker",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8080"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
